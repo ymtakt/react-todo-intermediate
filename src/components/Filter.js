@@ -1,15 +1,21 @@
 import React from 'react'
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
-const Filter = () => {
+export const Filter = ({ filter, handleSetTodoFilter }) => {
   return (
-    <div>Filter
-      <select>
-        <option value="">未着手</option>
-        <option value="">作業中</option>
-        <option value="">完了</option>
-      </select>
+    <div>
+      <h2>ステータス：</h2>
+      <Select
+        fullWidth
+        value={filter}
+        onChange={handleSetTodoFilter}
+      >
+        <MenuItem selected value="全て">全て</MenuItem>
+        <MenuItem value="未着手">未着手</MenuItem>
+        <MenuItem value="作業中">作業中</MenuItem>
+        <MenuItem value="完了">完了</MenuItem>
+      </Select>
     </div>
   )
 }
-
-export default Filter

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Style from "./App.module.css";
-import Filter from "./components/Filter";
+import { Filter } from "./components/Filter";
 import TodoAdd from "./components/TodoAdd";
-import TodoList from "./components/TodoList";
+import { TodoList } from "./components/TodoList";
 
 import { NavLink } from "react-router-dom";
 
@@ -150,7 +150,6 @@ function App() {
       default:
         return todo;
     }
-    console.log(todos);
   })
 
 
@@ -177,145 +176,26 @@ function App() {
   return (
     <Container sx={{}} className={Style.App}>
       <Box sx={{}} >
-        {/* <TodoAdd onAdd={handleAddTodo} /> */}
-        <form onSubmit={handleOnSubmit}>
+        <TodoAdd
+          handleOnSubmit={handleOnSubmit}
+          todoTitle={todoTitle}
+          handleSetTodoTitle={handleSetTodoTitle}
+          todoText={todoText}
+          handleSetTodoText={handleSetTodoText}
+          todoStatus={todoStatus}
+          handleSetTodoStatus={handleSetTodoStatus}
+        />
 
-          <div>
-            <h1>TODOリスト</h1>
-            <div>
-              <TextField
-                fullWidth
-                id="standard-basic"
-                margin="normal"
-                label="Standard"
-                variant="standard"
-                type="text"
-                placeholder="TODOを入力してください"
-                value={todoTitle}
-                onChange={handleSetTodoTitle}
-              />
-            </div>
-            <div>
-              <TextareaAutosize
-                aria-label="empty textarea"
-                style={{ width: 600 }}
-                type="text"
-                placeholder="詳細を入力してください"
-                value={todoText}
-                onChange={handleSetTodoText}
-              />
-            </div>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">ステータス：</InputLabel>
-              <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={todoStatus}
-                onChange={handleSetTodoStatus}
-              >
-                <MenuItem selected value="未着手">未着手</MenuItem>
-                <MenuItem value="作業中">作業中</MenuItem>
-                <MenuItem value="完了">完了</MenuItem>
-              </Select>
-            </FormControl>
-            {/* <button onClick={() => handleAddTodo()}>TODOの追加</button> */}
-            <Button variant="contained" type="submit">TODOの追加</Button>
-          </div>
-        </form>
+        <Filter filter={filter} handleSetTodoFilter={handleSetTodoFilter} />
 
-
-        {/* <Filter /> */}
-        <div>
-          <h2>ステータス：</h2>
-          <Select
-            fullWidth
-            value={filter}
-            onChange={handleSetTodoFilter}
-          >
-            <MenuItem selected value="全て">全て</MenuItem>
-            <MenuItem value="未着手">未着手</MenuItem>
-            <MenuItem value="作業中">作業中</MenuItem>
-            <MenuItem value="完了">完了</MenuItem>
-          </Select>
-        </div>
-
-        <div>
-          <h2>タスク一覧：</h2>
-          <ul>
-            {filteredTodos.map((todo, index) => (
-              // <TodoList
-              //   index={index}
-              //   id={todo.id}
-              //   title={todo.title}
-              //   onDelete={handleDelete(index)}
-              // />
-              <Card sx={{ m: 4 }} key={todo.id}>
-                <CardContent>
-                  <time>タスク作成日：{todo.date}</time>
-                  <br />
-                  {todo.edit ? <p>
-                    <span>タスク名：</span>
-                    {todo.title}
-                    <br />
-                    <span>詳細：</span>
-                    {todo.text}
-                    <br />
-                    <span>進捗：</span>
-                    {todo.status}
-                  </p> :
-                    <><TextField
-                      fullWidth
-                      id="standard-basic"
-                      margin="normal"
-                      label="Standard"
-                      variant="standard"
-                      type="text"
-                      value={todo.title}
-                      onChange={(e) => handleEditTitle(todo.id, e.target.value)}
-                    />
-                      <br />
-                      <TextareaAutosize
-                        type="text"
-                        value={todo.text}
-                        onChange={(e) => handleEditText(todo.id, e.target.value)}
-                      />
-                      <br />
-                      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                        <InputLabel id="demo-simple-select-standard-label">ステータス：</InputLabel>
-                        <Select
-                          labelId="demo-simple-select-standard-label"
-                          id="demo-simple-select-standard"
-                          value={todo.status}
-                          onChange={(e) => handleEditStatus(todo.id, e.target.value)}
-                        >
-                          <MenuItem selected value="未着手">未着手</MenuItem>
-                          <MenuItem value="作業中">作業中</MenuItem>
-                          <MenuItem value="完了">完了</MenuItem>
-                        </Select>
-                      </FormControl>
-                      <br />
-                    </>
-                  }
-
-                  {/* <NavLink
-                to="/edit"
-                key={todo.id}
-                date={todo.date}
-                id={todo.id}
-                title={todo.title}
-                text={todo.text}
-                status={todo.status}
-                 >編集</NavLink> */}
-                  <button className={Style.nonButton} onClick={() => handleEdit(todo.id)}>
-                    {todo.edit ? <EditIcon /> : <AssignmentTurnedInIcon />}
-                  </button>
-                  <DeleteIcon onClick={() => handleDelete(todo.id)}>削除</DeleteIcon>
-                </CardContent>
-              </Card>
-            )
-            )}
-          </ul>
-        </div>
+        <TodoList
+          filteredTodos={filteredTodos}
+          handleEditTitle={handleEditTitle}
+          handleEditText={handleEditText}
+          handleEditStatus={handleEditStatus}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
 
       </Box>
     </Container>
