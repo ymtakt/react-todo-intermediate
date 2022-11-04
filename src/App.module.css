@@ -1,0 +1,8 @@
+.App {
+  margin: 40px;
+}
+
+.nonButton {
+  background: none !important;
+  border: none !important;
+}
