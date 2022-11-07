@@ -29,10 +29,21 @@ function App() {
   const [todoId, setTodoId] = useState(0);
   const [todoTitle, setTodoTitle] = useState("");
   const [todoText, setTodoText] = useState("");
-  const [todoStatus, setTodoStatus] = useState("未着手")
-  const [todos, setTodos] = useState([
-    // { id: 0, title: todoTitle, status: status }
-  ]);
+  const [todoStatus, setTodoStatus] = useState("未着手");
+  // const [todos, setTodos] = useState([
+  //   // { id: 0, title: todoTitle, status: status }
+  // ]);
+
+  const [todos, setTodos] = useState(() => {
+    const savedTodos = localStorage.getItem("todos");
+    if (savedTodos) {
+      return JSON.parse(savedTodos);
+    } else {
+      return [];
+    }
+  });
+
+
 
   const [filter, setFilter] = useState("全て");
 
@@ -156,21 +167,10 @@ function App() {
 
   //ローカルストレージへの保存処理
   useEffect(() => {
-    const keep = JSON.stringify(todos);
-    localStorage.setItem("KeepTodos", keep);
-
+    localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos])
 
-  //ローカルストレージから呼び出し処理
-  useEffect(() => {
-    const call = localStorage.getItem("KeepTodos");
-    const localTodos = JSON.parse(call);
 
-    if (localTodos) {
-      setTodos(localTodos);
-      console.log(todos)
-    }
-  }, [])
 
 
   return (
